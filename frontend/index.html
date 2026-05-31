@@ -109,7 +109,7 @@ function addVisitor(){
 const name=document.getElementById("name").value
 const age=document.getElementById("age").value
 
-fetch("http://localhost:5000/api/add",{
+fetch("http://192.168.49.2:30331/api/add",{
 
 method:"POST",
 
@@ -135,7 +135,7 @@ document.getElementById("result").innerText="Error connecting to backend"
 
 function showVisitors(){
 
-fetch("http://localhost:5000/api/visitors")
+fetch("http://192.168.49.2:30331/api/visitors")
 
 .then(response=>response.json())
 
