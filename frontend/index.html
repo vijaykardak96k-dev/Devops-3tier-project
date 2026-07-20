@@ -1,165 +1,107 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
-
 <title>Visitor Tracker | Vijay Kardak</title>
 <meta charset="UTF-8">
-
 <style>
-
 body{
 margin:0;
 font-family:Arial, Helvetica, sans-serif;
 height:100vh;
-
 background: linear-gradient(135deg,#4facfe,#00c6ff);
-
 display:flex;
 justify-content:center;
 align-items:center;
 }
-
 .container{
-
 background:white;
 padding:40px;
 width:420px;
-
 border-radius:15px;
 text-align:center;
-
 box-shadow:0 20px 40px rgba(0,0,0,0.3);
-
 }
-
 h2{
 margin-top:0;
 }
-
 input{
-
 width:90%;
 padding:12px;
 margin:8px 0;
-
 border-radius:6px;
 border:1px solid #ccc;
-
 }
-
 button{
-
 padding:12px 20px;
 margin:10px;
-
 border:none;
 border-radius:6px;
-
 background:#007BFF;
 color:white;
-
 font-size:15px;
 cursor:pointer;
-
 }
-
 button:hover{
 background:#0056b3;
 }
-
 #result{
-
 margin-top:20px;
 font-size:17px;
-
 }
-
 </style>
-
 </head>
-
 <body>
 
 <div class="container">
-
 <h2>🚀 DevOps Visitor Tracker</h2>
 <p>Created by <b>Vijay Kardak</b></p>
-
 <input id="name" placeholder="Visitor Name">
 <br>
-
 <input id="age" placeholder="Visitor Age">
-
 <br>
-
 <button onclick="addVisitor()">Add Visitor</button>
-
 <button onclick="showVisitors()">Show Visitors</button>
-
 <div id="result"></div>
-
 </div>
 
 <script>
-
 function addVisitor(){
-
 const name=document.getElementById("name").value
 const age=document.getElementById("age").value
 
-fetch("http://192.168.49.2:30331/api/add",{
-
+// FIXED: Using Public Node IP + Backend NodePort, and added the missing slash
+fetch("http://13.233.166.242:30331/api/add",{
 method:"POST",
-
 headers:{
 "Content-Type":"application/json"
 },
-
 body:JSON.stringify({name:name,age:age})
-
 })
-
 .then(response=>response.json())
-
 .then(data=>{
 document.getElementById("result").innerText=data.message
 })
-
 .catch(error=>{
 document.getElementById("result").innerText="Error connecting to backend"
 })
-
 }
 
 function showVisitors(){
-
-fetch("http://192.168.49.2:30331/api/visitors")
-
+// FIXED: Using Public Node IP + Backend NodePort
+fetch("http://13.233.166.242:30331/api/visitors")
 .then(response=>response.json())
-
 .then(data=>{
-
 let html=""
-
 data.forEach(v=>{
 html+=v.id+" - "+v.name+" ("+v.age+")<br>"
 })
-
 document.getElementById("result").innerHTML=html
-
 })
-
 .catch(error=>{
 document.getElementById("result").innerText="Error loading visitors"
 })
-
 }
-
 </script>
 
 </body>
-
 </html>
-
