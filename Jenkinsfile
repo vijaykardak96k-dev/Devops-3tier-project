@@ -59,11 +59,18 @@ pipeline {
 
         stage('Deploy To kOps Kubernetes') {
             steps {
-                echo "Deploying Application on Kubernetes"
+                echo "Deploying/Creating all Application Resources on Kubernetes"
                 dir('Deployment') {
                     sh """
-                    kubectl set image deployment/backend backend=${BACKEND_IMAGE}
-                    kubectl set image deployment/frontend frontend=${FRONTEND_IMAGE}
+                    kubectl apply -f maria-secret.yml
+                    kubectl apply -f mariadb-init-configmap.yml
+                    kubectl apply -f mariadb-headless-service.yml
+                    kubectl apply -f backend-service.yml
+                    kubectl apply -f frontend-service.yml
+                    kubectl apply -f mariadb-statefulset.yml
+
+                    envsubst < backend-deployment.yml | kubectl apply -f -
+                    envsubst < frontend-deployment.yml | kubectl apply -f -
                     """
                 }
             }
