@@ -79,7 +79,7 @@ pipeline {
 
 
 
-        stage('Trivy Security Scan') {
+        stage('Trivy Security Scann') {
 
 
             steps {
